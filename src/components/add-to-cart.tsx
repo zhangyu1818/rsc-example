@@ -5,10 +5,10 @@ import { useFormState } from 'react-dom'
 import { SubmitButton } from '@/components/submit-button'
 import { addItem } from '@/actions'
 
-import { type Product } from '@/actions/interface'
+import { type Product } from '@/service/interface'
 
 interface AddToCartProps {
-  variant?: Product['data']['product']['variants']['edges'][0]['node']
+  variant?: Product['product']['variants']['edges'][0]['node']
 }
 export const AddToCart = (props: AddToCartProps) => {
   const { variant } = props

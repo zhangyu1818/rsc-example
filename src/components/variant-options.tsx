@@ -4,10 +4,10 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { clsx } from 'clsx'
 
-import { type Product } from '@/actions/interface'
+import { type Product } from '@/service/interface'
 
 interface VariantOptionsProps {
-  options: Product['data']['product']['options']
+  options: Product['product']['options']
 }
 export const VariantOptions = (props: VariantOptionsProps) => {
   const { options } = props

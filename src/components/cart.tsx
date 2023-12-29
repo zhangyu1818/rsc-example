@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers'
-import { getCart } from '@/actions'
+import { getCart } from '@/service'
 import { CartDrawer } from '@/components/cart-drawer'
 
 export const Cart = async () => {
@@ -8,7 +8,7 @@ export const Cart = async () => {
 
   if (cartId) {
     const response = await getCart(cartId)
-    cart = response.data.cart
+    cart = response.cart
   }
 
   return (

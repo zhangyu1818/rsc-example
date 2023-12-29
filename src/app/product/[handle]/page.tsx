@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 
 import { VariantOptions } from '@/components/variant-options'
-import { getProduct } from '@/actions'
+import { getProduct } from '@/service'
 import { AddToCart } from '@/components/add-to-cart'
 
 interface ProductPageProps {
@@ -14,9 +14,7 @@ interface ProductPageProps {
 
 export default async function ProductPage(props: ProductPageProps) {
   const { params, searchParams } = props
-  const {
-    data: { product },
-  } = await getProduct(params.handle)
+  const { product } = await getProduct(params.handle)
 
   if (!product) return notFound()
 
@@ -44,7 +42,7 @@ export default async function ProductPage(props: ProductPageProps) {
     : product.title
 
   return (
-    <div className='flex bg-[#f3f3f3] px-24 py-12'>
+    <div className='flex flex-1 bg-[#f3f3f3] px-24 py-12'>
       <div className='w-2/3'>
         <Image
           width={715}

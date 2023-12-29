@@ -3,11 +3,11 @@ import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { clsx } from 'clsx'
 
-import { type GetCart } from '@/actions/interface'
+import { type GetCart } from '@/service/interface'
 import Image from 'next/image'
 
 interface CartDrawerProps {
-  cart: GetCart['data']['cart'] | null
+  cart: GetCart['cart'] | null
 }
 
 export const CartDrawer = (props: CartDrawerProps) => {
@@ -15,6 +15,10 @@ export const CartDrawer = (props: CartDrawerProps) => {
   const [open, setOpen] = useState(false)
 
   const totalQuantity = cart?.totalQuantity
+
+  if (typeof window !== 'undefined') {
+    document.documentElement.style.overflow = open ? 'hidden' : ''
+  }
 
   return (
     <>
@@ -43,47 +47,54 @@ export const CartDrawer = (props: CartDrawerProps) => {
           </span>
         )}
       </button>
-      {createPortal(
-        <div
-          className={clsx(
-            'fixed bottom-0 right-0 top-0 z-20 overflow-hidden bg-white transition-all',
-            open ? 'w-[400px]' : 'w-0',
-          )}
-        >
-          <div className='flex flex-col gap-6 p-6'>
-            <h1 className='text-2xl font-bold'>Cart</h1>
-            {totalQuantity ? (
-              cart!.lines.edges.map(({ node }) => {
-                const {
-                  id,
-                  quantity,
-                  merchandise: { image, product },
-                } = node
-                return (
-                  <div key={id} className='flex gap-4'>
-                    <Image
-                      className='rounded'
-                      width={80}
-                      height={80}
-                      src={image.url}
-                      alt={product.title}
-                    />
-                    <div className='flex flex-col gap-1'>
-                      <h2 className='font-semibold'>{product.title}</h2>
-                      <p className='text-xs'>Quantity: {quantity}</p>
-                    </div>
-                  </div>
-                )
-              })
-            ) : (
-              <p className='cursor-default py-16 text-center text-xl font-semibold text-gray-700'>
-                Empty
-              </p>
-            )}
-          </div>
-        </div>,
-        document.body,
-      )}
+      {open &&
+        createPortal(
+          <>
+            <div
+              className='fixed inset-0 z-20 bg-black opacity-50'
+              onClick={() => setOpen(false)}
+            />
+            <div
+              className={clsx(
+                'fixed bottom-0 right-0 top-0 z-30 overflow-hidden bg-white transition-all',
+                open ? 'w-[400px]' : 'w-0',
+              )}
+            >
+              <div className='flex flex-col gap-6 p-6'>
+                <h1 className='text-2xl font-bold'>Cart</h1>
+                {totalQuantity ? (
+                  cart!.lines.edges.map(({ node }) => {
+                    const {
+                      id,
+                      quantity,
+                      merchandise: { image, product },
+                    } = node
+                    return (
+                      <div key={id} className='flex gap-4'>
+                        <Image
+                          className='rounded'
+                          width={80}
+                          height={80}
+                          src={image.url}
+                          alt={product.title}
+                        />
+                        <div className='flex flex-col gap-1'>
+                          <h2 className='font-semibold'>{product.title}</h2>
+                          <p className='text-xs'>Quantity: {quantity}</p>
+                        </div>
+                      </div>
+                    )
+                  })
+                ) : (
+                  <p className='cursor-default py-16 text-center text-xl font-semibold text-gray-700'>
+                    Empty
+                  </p>
+                )}
+              </div>
+            </div>
+          </>,
+          document.body,
+        )}
     </>
   )
 }

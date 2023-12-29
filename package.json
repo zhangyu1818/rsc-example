@@ -1,18 +1,24 @@
 {
-  "name": "server-action",
-  "version": "0.1.0",
   "private": true,
+  "author": {
+    "email": "hey@zhangyu.dev",
+    "name": "zhangyu1818"
+  },
+  "repository": "https://github.com/zhangyu1818/rsc-example",
   "scripts": {
-    "dev": "next dev -p",
+    "dev": "next dev",
     "build": "next build",
-    "start": "next start -p",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "clsx": "^2.0.0",
+    "graphql-request": "^6.1.0",
     "next": "14.0.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-aria-components": "^1.0.0",
+    "react-dom": "^18",
+    "sharp": "^0.33.1"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -23,6 +29,7 @@
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.9",
     "tailwindcss": "^3.3.0",
+    "tailwindcss-react-aria-components": "^1.0.0",
     "typescript": "^5"
   }
 }
