@@ -11,7 +11,5 @@ export const Cart = async () => {
     cart = response.cart
   }
 
-  return (
-      <CartDrawer cart={cart} />
-  )
+  return <CartDrawer cart={cart} />
 }

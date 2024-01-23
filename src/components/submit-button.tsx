@@ -1,20 +1,23 @@
+'use client'
+
+import { useFormStatus } from 'react-dom'
+import { UpdateIcon } from '@radix-ui/react-icons'
+
+import { Button, type ButtonProps } from '@/components/ui/button'
 import { clsx } from 'clsx'
-import { type ButtonHTMLAttributes } from 'react'
 
-interface SubmitButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
+export const SubmitButton = (props: ButtonProps) => {
+  const { className, children, disabled, ...restProps } = props
+  const { pending } = useFormStatus()
 
-export const SubmitButton = (props: SubmitButtonProps) => {
-  const { className, disabled, ...restProps } = props
   return (
-    <button
-      disabled={disabled}
-      className={clsx(
-        'w-full bg-black px-4 py-2.5 text-lg font-semibold text-white transition-all',
-        disabled ? 'cursor-not-allowed opacity-60' : 'hover:scale-105',
-      )}
+    <Button
+      className={clsx('w-full font-semibold', className)}
+      disabled={pending || disabled}
       {...restProps}
     >
-      Add To Cart
-    </button>
+      {pending && <UpdateIcon className='mr-3 h-4 w-4 animate-spin' />}
+      {children}
+    </Button>
   )
 }

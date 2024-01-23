@@ -2,8 +2,9 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 
 import { VariantOptions } from '@/components/variant-options'
-import { getProduct } from '@/service'
 import { AddToCart } from '@/components/add-to-cart'
+import { Separator } from '@/components/ui/separator'
+import { getProduct } from '@/service'
 
 interface ProductPageProps {
   params: {
@@ -42,9 +43,10 @@ export default async function ProductPage(props: ProductPageProps) {
     : product.title
 
   return (
-    <div className='flex flex-1 bg-[#f3f3f3] px-24 py-12'>
+    <div className='flex flex-1 px-24 py-12 gap-8'>
       <div className='w-2/3'>
         <Image
+          className='rounded-xl dark:brightness-90'
           width={715}
           height={715}
           src={productImageSrc}
@@ -53,12 +55,14 @@ export default async function ProductPage(props: ProductPageProps) {
       </div>
       <aside className='flex w-1/3 flex-col gap-8'>
         <div>
-          <h1 className='text-6xl font-bold'>{product.title}</h1>
+          <h1 className='text-6xl font-extrabold tracking-wide'>
+            {product.title}
+          </h1>
           <p className='mt-4 font-semibold'>{priceText}</p>
         </div>
         <VariantOptions options={product.options} />
         <AddToCart variant={currentVariant} />
-        <hr />
+        <Separator decorative />
         <p className='text-gray-700'>{product.description}</p>
       </aside>
     </div>

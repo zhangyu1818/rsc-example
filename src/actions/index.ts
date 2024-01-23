@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers'
 import { revalidateTag } from 'next/cache'
-import { addToCart, createCart, getCart, TAGS } from '@/service'
+import { addToCart, createCart, getCart, TAGS, updateCart } from '@/service'
 
 export const addItem = async (
   _: unknown,
@@ -32,5 +32,37 @@ export const addItem = async (
     revalidateTag(TAGS.cart)
   } catch (e) {
     return 'Error adding item to cart'
+  }
+}
+
+interface UpdateItemQuantityPayload {
+  lineId: string
+  variantId: string
+  quantity: number
+}
+
+export async function updateItemQuantity(
+  _: unknown,
+  payload: UpdateItemQuantityPayload,
+) {
+  const cartId = cookies().get('cartId')?.value
+
+  if (!cartId) {
+    return 'Missing cart ID'
+  }
+
+  const { lineId, variantId, quantity } = payload
+
+  try {
+    await updateCart(cartId, [
+      {
+        id: lineId,
+        merchandiseId: variantId,
+        quantity,
+      },
+    ])
+    revalidateTag(TAGS.cart)
+  } catch (e) {
+    return 'Error updating item quantity'
   }
 }

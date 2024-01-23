@@ -1,8 +1,9 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { clsx } from 'clsx'
+import { useSearchParams } from 'next/navigation'
+
+import { Toggle } from '@/components/ui/toggle'
 
 import { type Product } from '@/service/interface'
 
@@ -29,16 +30,15 @@ export const VariantOptions = (props: VariantOptionsProps) => {
                 const url = `?${params.toString()}`
                 return (
                   <li className='mt-2' key={value}>
-                    <Link
-                      className={clsx(
-                        'border px-2.5 py-1.5 text-xs font-semibold',
-                        currentValue === value
-                          ? 'border-black bg-black text-white'
-                          : 'bg-white text-gray-700',
-                      )}
-                      href={url}
-                    >
-                      {value}
+                    <Link href={url}>
+                      <Toggle
+                        className='min-w-8'
+                        variant='outline'
+                        size='sm'
+                        pressed={currentValue === value}
+                      >
+                        {value}
+                      </Toggle>
                     </Link>
                   </li>
                 )
